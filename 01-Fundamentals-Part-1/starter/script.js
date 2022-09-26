@@ -85,4 +85,37 @@ else {
   console.log(`${country} does not meet your criteria :(`)
 }
 
+// language = 'arabic'
+
 // switch statements
+switch (language.toLowerCase()) {
+  case 'chinese':
+  case 'mandarin':
+    console.log('MOST native speakers')
+    break;
+  case 'spanish':
+    console.log('second most native speakers')
+    break;
+  case 'english':
+    console.log('3rd place')
+    break;
+  case 'hindi':
+    console.log('4th')
+    break;
+  case 'arabic':
+    console.log('5th most spoken language')
+    break
+  default:
+    console.log('great language too :D')
+}
+
+
+// ternary expression practice
+
+// population = 13
+
+// worse way of doing it, since you have to rewrite so much of the statement, want to isolate the part that actually changes
+// population > 33 ? console.log(`${country}'s population is above average`) : console.log(`${country}'s population is below average`)
+
+const aboveOrBelow = population > 33 ? 'above' : 'below'
+console.log(`${country}'s population is ${aboveOrBelow} average.`)
