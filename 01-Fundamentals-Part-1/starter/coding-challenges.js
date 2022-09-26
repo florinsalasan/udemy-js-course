@@ -31,6 +31,7 @@ let markBMITwo = calcBMI(markWeightTwo, markHeightTwo)
 let johnBMIOne = calcBMI(johnWeightOne, johnHeightOne)
 let johnBMITwo = calcBMI(johnWeightTwo, johnHeightTwo)
 
+console.log("CHALLENGE 1")
 let markHigherBMI = markBMIOne > johnBMIOne
 console.log(markHigherBMI)
 
@@ -57,8 +58,60 @@ function improvedBMIComparison(weight1, height1, weight2, height2) {
   }
 }
 
+console.log("CHALLENGE 2")
 // First set of measurements
 improvedBMIComparison(markWeightOne, markHeightOne, johnWeightOne, johnHeightOne)
 
 // Second set of measurements
 improvedBMIComparison(markWeightTwo, markHeightTwo, johnWeightTwo, johnHeightTwo)
+
+//CHALLENGE 3
+// There are two gymnastics teams, Dolphins and Koalas. They compete against each other 3 times. The winner with the highest average score wins a trophy!
+// Your tasks:
+// 1. Calculate the average score for each team,using the test data below
+// 2. Compare the team's average scores to determine the winner of the competition,
+// and print it to the console. Don't forget that there can be a draw, so test for that
+// as well (draw means they have the same average score)
+// 3. Bonus1: Include a requirement for a minimum score of 100. With this rule, a
+// team only wins if it has a higher score than the other team, and the same time a score of at least 100 points. Hint: Use a logical operator to test for minimum score, as well as multiple else-if blocks 😉
+// 4. Bonus2: Minimum score also applies to a draw! So a draw only happens when both teams have the same score and both have a score greater or equal 100 points. Otherwise, no team wins the trophy
+// Test data:
+// § Data 1: Dolphins score 96, 108 and 89. Koalas score 88, 91 and 110
+// § Data Bonus 1: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 123 § Data Bonus 2: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 106
+
+function winningTeam(dolphin1, dolphin2, dolphin3, koala1, koala2, koala3) {
+  avgDolphin = (dolphin1 + dolphin2 + dolphin3) / 3
+  avgKoala = (koala1 + koala2 + koala3) / 3
+
+  if (avgDolphin > avgKoala) {
+    console.log(`The dolphins beat the koalas with a final score of ${avgDolphin.toFixed(2)} to ${avgKoala.toFixed(2)}!`)
+  } else if (avgDolphin === avgKoala) {
+    console.log(`The dolphins tied the koalas with a final score of ${avgDolphin.toFixed(2)}`)
+  } else {
+    console.log(`The dolphins lost to the koalas with a final score of ${avgDolphin.toFixed(2)} to ${avgKoala.toFixed(2)}!`)
+  }
+}
+
+console.log("CHALLENGE 3")
+winningTeam(96, 108, 89, 88, 91, 110)
+winningTeam(97, 112, 101, 109, 95, 123)
+winningTeam(97, 112, 101, 109, 95, 106)
+
+function winningTeamBonuses(dolphin1, dolphin2, dolphin3, koala1, koala2, koala3, min_score) {
+  avgDolphin = (dolphin1 + dolphin2 + dolphin3) / 3
+  avgKoala = (koala1 + koala2 + koala3) / 3
+
+  if (avgDolphin > avgKoala && avgDolphin > min_score) {
+    console.log(`The dolphins beat the koalas with a final score of ${avgDolphin.toFixed(2)} to ${avgKoala.toFixed(2)}!`)
+  } else if (avgDolphin === avgKoala && avgDolphin > min_score) {
+    console.log(`The dolphins tied the koalas with a final score of ${avgDolphin.toFixed(2)}`)
+  } else if (avgDolphin < avgKoala && avgKoala > min_score) {
+    console.log(`The dolphins lost to the koalas with a final score of ${avgDolphin.toFixed(2)} to ${avgKoala.toFixed(2)}!`)
+  } else {
+    console.log(`Neither team had a score that was higher than the minimum required, ${min_score}, and as a result nobody has won the trophy`)
+  }
+}
+
+winningTeamBonuses(96, 108, 89, 88, 91, 110, 100)
+winningTeamBonuses(97, 112, 101, 109, 95, 123, 100)
+winningTeamBonuses(97, 112, 101, 109, 95, 106, 100)

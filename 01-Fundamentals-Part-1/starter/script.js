@@ -57,3 +57,32 @@ console.log(typeof ('19' - '13' + '17'))
 console.log('19' - '13' + 17, "this is the mixed type addition") // 23 
 console.log('123' < 57) // false
 console.log(5 + 6 + '4' + 9 - 4 - 2) // 1143 I'm assuming it treats the equations before and after the '4' properly and then concatenates the results together as strings with the 4 in the middle of them
+
+// falsy values: 0, "", undefined, null, NaN
+// truthy values: non-zero nums, non-empty strings
+
+// equality operators, == vs ===
+
+let numNeighbors = 0
+if (numNeighbors === 1) {
+  console.log('only 1 border')
+}
+else if (numNeighbors > 1) {
+  console.log('more than 1 border')
+}
+else {
+  console.log('no borders')
+}
+
+// when using == for the first if statment, it would accept any number as truthy and log just one border even if there were more than one, changing it to === allowed the block to differentiate between an actual value of 1 and truthy values. Thus we should probably default to using === to prevent unwanted truthy values from executing code blocks where we want a value of one or other edge cases like it.
+
+// Logical operators practice
+
+if (language.toLowerCase() === 'english' && population < 50 && !isIsland) {
+  console.log(`You should live in ${country} :)`)
+}
+else {
+  console.log(`${country} does not meet your criteria :(`)
+}
+
+// switch statements
