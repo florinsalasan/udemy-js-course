@@ -35,3 +35,25 @@ console.log(description)
 // strings and template literals practice:
 description = `${country} is in ${continent}, and its ${population} million people speak ${language}.`
 console.log(description)
+
+// taking decisions if/else block practice
+if (!lessPeopleThanAvg) {
+  console.log(`${country}'s population is above average`)
+} else {
+  console.log(`${country}'s population is below average`)
+}
+
+// type conversion and coercion practice:
+// predict the result of the following without running them
+'9' - '5'; // 4
+'19' - '13' + '17'; // 23
+'19' - '13' + 17; //23
+'123' < 57; // false
+5 + 6 + '4' + 9 - 4 - 2; // 18
+
+console.log('9' - '5') // 4
+console.log('19' - '13' + '17') // '617' as a string I believe that js string subtraction of ints, possibly of floats, is treated as if subtracting ints and then the addition is concatenating the strings as done in the initial declaration of description.
+console.log(typeof ('19' - '13' + '17'))
+console.log('19' - '13' + 17, "this is the mixed type addition") // 23 
+console.log('123' < 57) // false
+console.log(5 + 6 + '4' + 9 - 4 - 2) // 1143 I'm assuming it treats the equations before and after the '4' properly and then concatenates the results together as strings with the 4 in the middle of them
