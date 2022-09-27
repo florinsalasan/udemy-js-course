@@ -85,3 +85,19 @@ const mexPopDesc = describePopulation('mexico', 128.9)
 console.log(canadaPopDesc, finlandPopDesc, mexPopDesc)
 
 // Intro to Arrays
+const populations = [38, 6, 128.9, 1441]
+console.log(populations.length === 4)
+let percentages = []
+for (let i = 0; i < populations.length; i++) {
+  percentages.push(percentageOfWorld1(populations[i]))
+}
+console.log(percentages)
+
+// Basic array operations (methods)
+// starting instuctions
+let neighbours = ['ukraine', 'moldova', 'bulgaria', 'serbia', 'hungary']
+// add neighbour
+neighbours.push('utopia')
+neighbours.pop()
+neighbours.includes('Germany') ? console.log('') : console.log('Probably not a central European country :D')
+neighbours[neighbours.indexOf('bulgaria')] = 'new Greek Kingdom'
