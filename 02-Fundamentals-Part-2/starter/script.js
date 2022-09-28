@@ -101,3 +101,33 @@ neighbours.push('utopia')
 neighbours.pop()
 neighbours.includes('Germany') ? console.log('') : console.log('Probably not a central European country :D')
 neighbours[neighbours.indexOf('bulgaria')] = 'new Greek Kingdom'
+
+
+// Intro to objects:
+
+let myCountry = {
+  'country': 'Canada',
+  'capital': 'Ottawa',
+  'language': 'English',
+  'population': 38,
+  'neighbours': ['usa', 'greenland', 'st pierre', 'miquelon'],
+  describe: function () {
+    console.log(`${this.country} has ${this.population} million ${this.language}-speaking people, ${this.length} neighbouring countries, and a capital called ${this.capital}`)
+  },
+  checkIsland: this.neighbours === 0 ? true : false,
+}
+console.log(myCountry)
+
+// Dot vs Bracket notation
+
+// console.log(`${myCountry.country} has ${myCountry.population} million ${myCountry.language}-speaking people, ${myCountry.neighbours.length} neighbouring countries, and a capital called ${myCountry.capital}`)
+myCountry.population += 2;
+// console.log(`${myCountry.country} has ${myCountry.population} million ${myCountry.language}-speaking people, ${myCountry.neighbours.length} neighbouring countries, and a capital called ${myCountry.capital}`)
+myCountry['population'] -= 2;
+// console.log(`${myCountry.country} has ${myCountry.population} million ${myCountry.language}-speaking people, ${myCountry.neighbours.length} neighbouring countries, and a capital called ${myCountry.capital}`)
+
+// Object methods
+// add a method to the myCountry object, it will log a string using the 'this' keyword
+
+myCountry.describe()
+console.log(myCountry.checkIsland)
