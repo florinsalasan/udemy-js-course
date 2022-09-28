@@ -8,6 +8,8 @@ let highScore = document.querySelector('.highscore')
 let restartBtn = document.querySelector(".again")
 let hintText = document.querySelector('.message')
 
+let hiddenNum = document.querySelector('.number')
+
 // creates a randomized target number for the user to guess.
 let targetNumber = Math.ceil(Math.random() * 20)
 
@@ -40,6 +42,7 @@ guessBtn.addEventListener('click', function higherLower() {
     guessBtn.classList.toggle('disabled')
     guessBtn.innerHTML = 'You won!'
     document.querySelector('body').classList.toggle('won')
+    hiddenNum.innerHTML = targNum.toString()
     return
   } else {
     let hL = num < targNum ? 'lower' : 'higher'
@@ -64,6 +67,8 @@ restartBtn.addEventListener('click', function restart() {
 
   guessBtn.classList.remove('disabled')
   guessBtn.innerHTML = 'Check!'
+
+  hiddenNum.innerHTML = '?'
 
   document.querySelector('body').classList.remove('won')
   document.querySelector('body').classList.remove('lost')
