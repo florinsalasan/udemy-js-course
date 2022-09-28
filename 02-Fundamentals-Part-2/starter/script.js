@@ -131,3 +131,39 @@ myCountry['population'] -= 2;
 
 myCountry.describe()
 console.log(myCountry.checkIsland)
+
+// for loop practice: 
+
+for (let i = 1; i < 51; i++) {
+  console.log(`Voter number ${i} is currently voting`)
+}
+
+// looping arrays, breaking, and continuing
+
+let percentages2 = [];
+
+for (let i = 0; i < populations.length; i++) {
+  percentages2.push(percentageOfWorld1(populations[i]))
+}
+console.log(percentages, percentages2)
+// to properly compare arrays, compare length and each item is equal, equality between objects is based on comparing memory reference and not value.
+
+// Looping backwards and loops in loops
+
+let listofNeighbours = [['Canada', 'Mexico'], ['Spain'], ['Norway', 'Sweden', 'Russia']]
+
+for (let i = 0; i < listofNeighbours.length; i++) {
+  for (let j = 0; j < listofNeighbours[i].length; j++) {
+    console.log('Neighbour:', listofNeighbours[i][j])
+  }
+}
+
+// while loops
+
+let i = 0
+let percentages3 = []
+while (i < populations.length) {
+  percentages3.push(percentageOfWorld1(populations[i]))
+  i++;
+}
+console.log(percentages3)
