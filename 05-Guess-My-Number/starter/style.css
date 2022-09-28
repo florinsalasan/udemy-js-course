@@ -117,3 +117,19 @@ h1 {
 .label-score {
   margin-bottom: 2rem;
 }
+
+.disabled {
+  pointer-events: none;
+}
+
+.won {
+  background-color: #60b347;
+}
+
+.lost {
+  background-color: #e03131;
+}
+
+.multiline {
+  line-height: 1.4;
+}
