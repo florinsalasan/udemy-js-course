@@ -156,6 +156,8 @@ console.log(scorers)
 // 4. Loop over 'gameEvents' and log each element to the console, marking whether it's in the first half or second half (after 45 min) of the game, like this:
 // [FIRST HALF] 17: ⚽   GOAL
 
+console.log("CHALLENGE 3")
+
 const gameEvents = new Map([
   [17, '⚽ GOAL'],
   [36, '🔁 Substitution'],
@@ -187,3 +189,63 @@ for (let [key, value] of gameEvents) {
     console.log(`[SECOND HALF] ${key}: ${value}`)
   }
 }
+
+//CHALLENGE 4
+
+// Write a program that receives a list of variable names written in underscore_case and convert them to camelCase.
+// The input will come from a textarea inserted into the DOM (see code below to insert the elements), and conversion will happen when the button is pressed.
+// Test data (pasted to textarea, including spaces):
+// underscore_case
+//  first_name
+// Some_Variable
+//   calculate_AGE
+// delayed_departure
+// Should produce this output (5 separate console.log outputs): underscoreCase ✅
+// firstName ✅ x2
+// someVariable ✅ x3
+// calculateAge ✅ x4
+// delayedDeparture ✅ x5 
+// Hints:
+// § Remember which character defines a new line in the textarea 😉
+// § The solution only needs to work for a variable made out of 2 words, like a_b
+// § Start without worrying about the ✅. Tackle that only after you have the variable
+// name conversion working 😉
+// § This challenge is difficult on purpose, so start watching the solution in case
+// you're stuck. Then pause and continue!
+
+
+// The textarea and submit button
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+console.log('CHALLENGE 4')
+
+let submitBtn = document.querySelector('button')
+let textarea = document.querySelector('textarea')
+
+submitBtn.addEventListener('click', function () {
+  textarea = document.querySelector('textarea')
+  let toConvert = textarea.value
+  console.log(typeof (toConvert))
+  let toConvertArray = toConvert.split('\n')
+  console.log(toConvertArray)
+  let checkmarks = ''
+  for (let j = 0; j < toConvertArray.length; j++) {
+    let term = toConvertArray[j].trim()
+    let words = term.split('_')
+    let camelWord = ''
+    for (let i = 0; i < words.length; i++) {
+      let newWord = words[i].toLowerCase()
+      if (i !== 0) {
+        let firstLetter = newWord.slice(0, 1).toUpperCase()
+        let remainingLetters = newWord.slice(1)
+        newWord = firstLetter + remainingLetters
+      }
+      camelWord = camelWord + newWord
+
+    }
+    camelWord = camelWord.padEnd(20)
+    checkmarks = checkmarks + '✅'
+    console.log(`${camelWord} ${checkmarks}`)
+  }
+})
