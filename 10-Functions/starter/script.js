@@ -156,5 +156,30 @@ const addTaxRate = function (rate) {
 }
 
 const addVAT2 = addTaxRate(0.23)
-console.log(addVAT2(200))
-console.log(addVAT2(15))
+console.log(addVAT2(200));
+console.log(addVAT2(15));
+
+// // immediately invoked function expression
+
+// iife typically have a preceeding semicolon because javascript can sometimes call it as part of a previous function call, for example, if the console.log above does not have a semicolon at the end of the line, it would create a typeerror so best practice, use semicolons at end of line, and as a precaution use them before an iife as well.
+; (function () {
+  console.log('this should run once and then never again per load');
+})();
+
+; (() => console.log('arrow function that should only run once'))();
+
+
+// closure examples
+
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  }
+}
+
+const booker = secureBooking();
+
+// a closure is the closed-over variable environment of the execution context in which a function was created, even after the execution context is gone. See video lecture in section 10 closures for a call stack walkthrough
