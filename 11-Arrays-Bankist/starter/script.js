@@ -61,23 +61,24 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-
 const displayMovements = function (movements) {
-  containerMovements.innerHTML = ''
+  containerMovements.innerHTML = '';
 
   movements.forEach(function (mov, i) {
-    const type = mov > 0 ? 'deposit' : 'withdrawal'
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
     <div class="movements__row">
-      <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+      <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
       
       <div class="movements__value">${mov}</div>
     </div>
-  `
+  `;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
-  })
+  });
 };
 
 displayMovements(account1.movements);
@@ -93,6 +94,105 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+const eurToUsd = 1.1;
+
+// const movementsUsd = movements.map(function (mov) {
+//   return mov * eurToUsd;
+// })
+
+// equivalent to the comment above, can be argued that it leads to bad readability but it's just personal preference
+const movementsUsd = movements.map(mov => mov * eurToUsd);
+
+console.log(movementsUsd);
+console.log(movements);
+
+const movementsUsdFor = [];
+for (const mov of movements) {
+  movementsUsdFor.push(mov * eurToUsd);
+}
+
+const movementDesc = movements.map(
+  (mov, i) =>
+    // let movType = mov > 0 ? 'deposited' : 'withdrew'
+
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+      mov
+    )}`
+);
+
+console.log(movementDesc);
+
+console.log(movementsUsdFor);
+
+// making the usernames from a given user obj, just the lowercase of each of the first letters in a user's name
+
+//ie, name = Florin Salasan, username would be fs
+const user = 'Steven Thomas Williams';
+
+const createUsernames = accs =>
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+
+// const username =
+createUsernames(accounts);
+console.log(accounts);
+
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+});
+const withdrawals = movements.filter(mov => mov <= 0);
+console.log(deposits);
+console.log(movements);
+console.log(withdrawals);
+
+const calcPrintBalance = function (movements) {
+  const balance = movements.reduce(function (prev, cur) {
+    return prev + cur;
+  }, 0);
+  console.log(balance);
+  labelBalance.textContent = `${balance} €`;
+};
+
+calcPrintBalance(account1.movements);
+
+const max = movements.reduce((acc, cur) => {
+  return cur > acc ? cur : acc;
+}, movements[0]);
+console.log(max);
+
+const totalDepositUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(totalDepositUSD);
+
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  labelSumIn.textContent = `${incomes}€`;
+  const withdrawals = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  labelSumOut.textContent = `${Math.abs(withdrawals)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * 0.012)
+    .filter(int => int >= 1)
+    .reduce((acc, int) => acc + int, 0);
+
+  labelSumInterest.textContent = `${interest} €`;
+};
+
+calcDisplaySummary(account1.movements);
 /////////////////////////////////////////////////
 
 // some simple array method practice
@@ -116,24 +216,24 @@ console.log(arr);
 arr = ['a', 'b', 'c', 'd', 'e'];
 const arr2 = ['j', 'i', 'h', 'g', 'f'];
 
-console.log(arr2.reverse())
-console.log(arr2) // reverse mutates the original array
+console.log(arr2.reverse());
+console.log(arr2); // reverse mutates the original array
 
 const letters = arr.concat(arr2);
 console.log(letters);
 console.log([...arr, ...arr2]);
 
-console.log(letters.join(' - ')) //returns a string
+console.log(letters.join(' - ')); //returns a string
 
 // can always look it up on mdn docs
 
 // at method allows negative indexing, can also use it on strings
-const arr3 = [23, 11, 64]
-console.log(arr3[0])
-console.log(arr3.at(0))
-console.log(arr3[arr3.length - 1])
-console.log(arr3.slice(-1)[0])
-console.log(arr3.at(-1))
+const arr3 = [23, 11, 64];
+console.log(arr3[0]);
+console.log(arr3.at(0));
+console.log(arr3[arr3.length - 1]);
+console.log(arr3.slice(-1)[0]);
+console.log(arr3.at(-1));
 
 // using forEach on the movements array
 
@@ -141,36 +241,35 @@ console.log(arr3.at(-1))
 // for (const movement of movements) {
 for (const [i, movement] of movements.entries()) {
   if (movement > 0) {
-    console.log(`Movement ${i + 1}: You deposited ${movement}`)
+    console.log(`Movement ${i + 1}: You deposited ${movement}`);
   } else {
-    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`)
+    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
   }
 }
 
-
-console.log(`----- forEach -----`)
+console.log(`----- forEach -----`);
 // new forEach, calls a function on each loop, allows a defined function to be used as the callback
 movements.forEach(function (movement, index, array) {
   // order of parameters in the callback function matters, always the current element, then index, then the array!!
 
   // keep in mind there is no way to break a forEach loop except for throwing an error
   if (movement > 0) {
-    console.log(`Movement ${index + 1}: You deposited ${movement}`)
+    console.log(`Movement ${index + 1}: You deposited ${movement}`);
   } else {
-    console.log(`Movement ${index + 1}: You withdrew ${Math.abs(movement)}`)
+    console.log(`Movement ${index + 1}: You withdrew ${Math.abs(movement)}`);
   }
-})
+});
 
 // using forEach on a map
 
 currencies.forEach(function (value, key, map) {
   // again order of parameters matters
-  console.log(`${key}: ${value}`)
-})
+  console.log(`${key}: ${value}`);
+});
 
-const currenciesUnique = new Set(['USD', 'GBP', 'USD', "EUR", "EUR"])
-console.log(currenciesUnique)
+const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+console.log(currenciesUnique);
 currenciesUnique.forEach(function (value, key, map) {
   // the first two parameters in the forEach callback on a set are the same
-  console.log(`${key}: ${value}`)
-})
+  console.log(`${key}: ${value}`);
+});

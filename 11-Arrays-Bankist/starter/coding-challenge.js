@@ -13,23 +13,23 @@
 // § Data 1: Julia's data [3, 5, 2, 12, 7], Kate's data [4, 1, 15, 8, 3] § Data 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]
 // Hints: Use tools from all lectures in this section so far 😉
 
-console.log('CHALLENGE 1')
+console.log('CHALLENGE 1');
 
 const checkDogs = function (dogsJulia, dogsKate) {
-  const dogsJuliaCopy = [...dogsJulia].slice(1, -2)
+  const dogsJuliaCopy = [...dogsJulia].slice(1, -2);
 
-  const allDogs = [...dogsJuliaCopy, ...dogsKate]
+  const allDogs = [...dogsJuliaCopy, ...dogsKate];
 
   allDogs.forEach(function (dog, i) {
-    let remainingSentence = dog < 3 ? `still a puppy` : `is an adult, and is ${dog} years old`
+    let remainingSentence =
+      dog < 3 ? `still a puppy` : `is an adult, and is ${dog} years old`;
 
-    console.log(`Dog number ${i + 1} is ${remainingSentence}`)
-  })
-}
+    console.log(`Dog number ${i + 1} is ${remainingSentence}`);
+  });
+};
 
-checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3])
-checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4])
-
+checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
 
 // CHALLENGE 2
 
@@ -43,23 +43,45 @@ checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4])
 // Test data:
 // § Data1:[5,2,4,1,15,8,3] § Data2:[16,6,10,5,6,1,4]
 
-console.log('CHALLENGE 2')
+console.log('CHALLENGE 2');
 
 const calcAverageHumanAge = function (ages) {
   let humanAges = [];
   ages.forEach(function (age) {
-    let humanAge = age > 2 ? 16 + age * 4 : 2 * age
-    humanAges.push(humanAge)
-  })
+    let humanAge = age > 2 ? 16 + age * 4 : 2 * age;
+    humanAges.push(humanAge);
+  });
 
-  let excludedAges = humanAges.filter(age => age >= 18)
+  let excludedAges = humanAges.filter(age => age >= 18);
 
   // console.log(excludedAges)
 
-  let averageAge = (excludedAges).reduce((partialSum, a) => partialSum + a,) / excludedAges.length
+  let averageAge =
+    excludedAges.reduce((partialSum, a) => partialSum + a) /
+    excludedAges.length;
 
-  console.log(averageAge)
-}
+  console.log(averageAge);
+};
 
-calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3])
-calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4])
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+
+// CHALLENGE 3
+
+// Rewrite the 'calcAverageHumanAge' function from Challenge #2, but this time as an arrow function, and using chaining!
+// Test data:
+// § Data1:[5,2,4,1,15,8,3] § Data2:[16,6,10,5,6,1,4]
+
+console.log('CHALLENGE 3');
+
+const calcAverageHumanAge2 = ages => {
+  const humanAges = ages
+    .map(age => (age > 2 ? 16 + age * 4 : 2 * age))
+    .filter(age => age >= 18)
+    .reduce((partSum, a, i, arr) => partSum + a / arr.length, 0);
+  console.log(humanAges);
+  return humanAges;
+};
+
+calcAverageHumanAge2([5, 2, 4, 1, 15, 8, 3]);
+calcAverageHumanAge2([16, 6, 10, 5, 6, 1, 4]);
