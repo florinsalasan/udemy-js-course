@@ -85,3 +85,87 @@ const calcAverageHumanAge2 = ages => {
 
 calcAverageHumanAge2([5, 2, 4, 1, 15, 8, 3]);
 calcAverageHumanAge2([16, 6, 10, 5, 6, 1, 4]);
+
+// CHALLENGE 4
+
+// Julia and Kate are still studying dogs, and this time they are studying if dogs are eating too much or too little.
+// Eating too much means the dog's current food portion is larger than the recommended portion, and eating too little is the opposite.
+// Eating an okay amount means the dog's current food portion is within a range 10% above and 10% below the recommended portion (see hint).
+// Your tasks:
+// 1. Loop over the 'dogs' array containing dog objects, and for each dog,calculate the recommended food portion and add it to the object as a new property. Do not create a new array, simply loop over the array. Forumla: recommendedFood = weight ** 0.75 * 28. (The result is in grams of food, and the weight needs to be in kg)
+// 2. Find Sarah's dog and log to the console whether it's eating too much or too little. Hint: Some dogs have multiple owners, so you first need to find Sarah in the owners array, and so this one is a bit tricky (on purpose) 🤓
+// 3. Create an array containing all owners of dogs who eat too much ('ownersEatTooMuch') and an array with all owners of dogs who eat too little ('ownersEatTooLittle').
+// 4. Log a string to the console for each array created in 3., like this: "Matilda and Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat too little!"
+// 5. Log to the console whether there is any dog eating exactly the amount of food that is recommended (just true or false)
+// 6. Log to the console whether there is any dog eating an okay amount of food (just true or false)
+// 7. Create an array containing the dogs that are eating an okay amount of food(try to reuse the condition used in 6.)
+// 8. Create a shallow copy of the 'dogs' array and sort it by recommended food portion in an ascending order (keep in mind that the portions are inside the array's objects 😉)
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+console.log('CHALLENGE 4');
+
+// 1
+dogs.forEach(dog => (dog.recommendedFood = dog.weight ** 0.75 * 28));
+console.log(dogs);
+
+// 2
+sarahsDog = dogs[dogs.findIndex(dog => dog.owners.includes('Sarah'))];
+console.log(
+  sarahsDog.curFood > sarahsDog.recommendedFood
+    ? 'Eating too much'
+    : 'Not eating enough'
+);
+
+// 3
+let ownersEatTooMuch = [];
+let ownersEatTooLittle = [];
+
+dogs.forEach(dog =>
+  dog.curFood > dog.recommendedFood
+    ? (ownersEatTooMuch = ownersEatTooMuch.concat(dog.owners))
+    : (ownersEatTooLittle = ownersEatTooLittle.concat(dog.owners))
+);
+
+console.log(ownersEatTooLittle);
+console.log(ownersEatTooMuch);
+
+// 4
+console.log(ownersEatTooLittle.join(' and ').concat("'s dogs eat too little."));
+console.log(ownersEatTooMuch.join(' and ').concat("'s dogs eat too much."));
+
+// 5
+console.log(dogs.some(dog => dog.curFood === dog.recommendedFood));
+
+// 6
+console.log(
+  dogs.some(
+    dog =>
+      dog.recommendedFood * 0.9 <= dog.curFood &&
+      dog.curFood <= dog.recommendedFood * 1.1
+  )
+);
+
+// 7
+const dogsEatingAight = dogs.filter(
+  dog =>
+    dog.recommendedFood * 0.9 <= dog.curFood &&
+    dog.curFood <= dog.recommendedFood * 1.1
+);
+
+console.log(dogs);
+console.log(dogsEatingAight);
+
+// 8
+const dogsAsc = dogs
+  .slice()
+  .sort((a, b) => a.recommendedFood - b.recommendedFood);
+// I'm either blind or stupid or both, I ran the above multiple times without noticing that the array was sorted, split it into two separate calls, it worked, chained them again and it continues to work even though I swear it didn't earlier 🤔
+
+console.log(dogsAsc);
+console.log(dogs);
