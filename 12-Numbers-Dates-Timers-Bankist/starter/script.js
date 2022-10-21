@@ -81,22 +81,35 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
-const displayMovements = function (movements, sort = false) {
-  containerMovements.innerHTML = '';
+const displayMovements = function (acc, sort = false) {
+  const movs = sort
+    ? acc.movements.slice().sort((a, b) => a - b)
+    : acc.movements;
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  containerMovements.innerHTML = '';
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
+    const date = new Date(acc.movementsDates[i]);
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    // const hour = date.getHours();
+    // const min = date.getMinutes();
+    const displayDate = `${day}/${month}/${year}`;
+
     const html = `
-      <div class="movements__row">
-        <div class="movements__type movements__type--${type}">${
+    <div class="movements__row">
+      <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__value">${mov}€</div>
-      </div>
-    `;
+
+      <div class="movements__date">${displayDate}</div>
+      
+      <div class="movements__value">${mov.toFixed(2)} €</div>
+    </div>
+  `;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
@@ -142,7 +155,7 @@ createUsernames(accounts);
 
 const updateUI = function (acc) {
   // Display movements
-  displayMovements(acc.movements);
+  displayMovements(acc);
 
   // Display balance
   calcDisplayBalance(acc);
@@ -244,7 +257,7 @@ btnClose.addEventListener('click', function (e) {
 let sorted = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
-  displayMovements(currentAccount.movements, !sorted);
+  displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
 
