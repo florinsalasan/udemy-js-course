@@ -25,6 +25,12 @@ html {
   box-sizing: border-box;
 }
 
+/* Moving the scroll-behavior from html to html:focus-within allows searching in the page to be instant rather than having to wait for the animation to play out. Could be considered personal preference or based on a pages 'personality' so to speak, for example on a wiki like page I'd prefer instant scrolling while on a company or product page I wouldn't be bothered by the animation since info I need typically wouldn't be crucial reference material */
+/* Implementing smooth scrolling this way can be annoying since it redirects changes the link and can be annoying if a user wants to hit back, does not properly scroll back to the previous indicated section and can clog up a users browser history too. Can also be looked as a positive though. */
+/* html:focus-within {
+  scroll-behavior: smooth;
+} */
+
 body {
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
@@ -660,6 +666,11 @@ h4 {
   visibility: hidden;
   opacity: 0;
 }
+
+/* This is my simple fix to avoid unnecessary DOM traversal when adding event listeners to the tabbed component in the operations section of the website */
+/* button > span {
+  pointer-events: none;
+} */
 
 /* COOKIE MESSAGE */
 .cookie-message {
