@@ -110,6 +110,7 @@ class CarCl {
   brake() {
     this.speed = this.speed - 5 > 0 ? this.speed - 5 : 0;
     this.printSpeed();
+    return this;
   }
 
   get speedUS() {
@@ -185,3 +186,73 @@ const tesla = new ElectricCar('Tesla', 25, 5);
 // tesla.chargeBattery(15);
 // tesla.printSpeed();
 // tesla.brake();
+
+// CHALLENGE 4
+
+// 1. Re-create Challenge #3, but this time using ES6 classes: create an 'EVCl' child class of the 'CarCl' class
+// 2. Make the 'charge' property private
+// 3. Implement the ability to chain the 'accelerate' and 'chargeBattery'
+// methods of this class, and also update the 'brake' method in the 'CarCl' class. Then experiment with chaining!
+// Test data:
+// § Data car 1: 'Rivian' going at 120 km/h, with a charge of 23%
+
+console.log('CHALLENGE 4');
+
+class EVCl extends CarCl {
+  // make the charge property private
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  printSpeed() {
+    console.log(
+      `This ${this.make} is travelling at ${
+        this.speed
+      } kph and has a remaining charge of ${this.#charge}%`
+    );
+  }
+
+  accelerate() {
+    this.#charge -= 1;
+    if (this.#charge > 0) {
+      this.speed += 20;
+      this.printSpeed();
+    } else {
+      console.log(`The ${this.make} has ran out of battery!`);
+    }
+    return this;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+}
+
+const rivian = new EVCl('Rivian', 120, 23);
+
+// rivian
+//   .accelerate()
+//   .brake()
+//   .brake()
+//   .brake()
+//   .brake()
+//   .brake()
+//   .brake()
+//   .brake()
+//   .brake()
+//   .brake()
+//   .chargeBattery(15)
+//   .brake()
+//   .brake()
+//   .brake()
+//   .brake()
+//   .brake()
+//   .brake()
+//   .accelerate()
+//   .accelerate()
+//   .accelerate()
+//   .accelerate();
