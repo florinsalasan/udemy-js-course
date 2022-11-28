@@ -127,9 +127,9 @@ const getJSON = function (url, errMsg = 'Something went wrong 😔') {
 
 // getCountryData('canada');
 
-btn.addEventListener('click', function () {
-  getCountryData('brazil');
-});
+// btn.addEventListener('click', function () {
+//   getCountryData('brazil');
+// });
 
 const getCountryData = function (country) {
   getJSON(`https://restcountries.com/v3.1/name/${country}`, 'Country not found')
@@ -156,3 +156,129 @@ const getCountryData = function (country) {
       countriesContainer.style.opacity = 1;
     });
 };
+
+// Call stack, callback queue, and microtasks queue interactions and priorities
+
+// js uses an event loop where it cycles through the callstack, then microtasks, then callback queue. Thus synchronous lines are executed first, then microtasks, then callbacks which then shows that things such as setTimeout do not guarantee the callback executing at precisely the defined time, but rather that it won't execute before then.
+
+// quick example of priorities
+
+// console.log('test start'); // 1st
+// setTimeout(() => console.log(`0 sec timer`), 0); // 5th
+// Promise.resolve('resolved promise 1').then(res => console.log(res)); // 3rd
+// Promise.resolve('resolved promise 2').then(res => {
+//   for (let i = 0; i < 1000000000; i++) {} //4th
+//   console.log(res);
+// });
+// console.log('test end'); // 2nd
+
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   // pass in an executor function which itself takes in resolve and rejection functions
+
+//   console.log('Lotto draw in progress');
+//   setTimeout(() => {
+//     if (Math.random() >= 0.5) {
+//       resolve('You WON 🥳');
+//     } else {
+//       reject(new Error('You lost 😔'));
+//     }
+//   }, 2000);
+// });
+
+// lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+
+// // Promisifying setTimeout. Pro
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+// wait(2)
+//   .then(() => {
+//     console.log(`I waited for 2 seconds`);
+//     return wait(1);
+//   })
+//   .then(() => console.log('I waited for 1 second'));
+
+// Promise.resolve('abc').then(x => console.log(x));
+// Promise.reject(new Error('Problem!')).catch(x => console.error(x));
+
+////////////////////////////////
+// promisifying geolocation
+////////////////////////////////
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(err)
+    // );
+    navigator.geolocation.getCurrentPosition(resolve, reject); // this is equivalent to the code that has been commented out above
+  });
+};
+
+// getPosition().then(pos => console.log(pos));
+// using getPosition to call whereAmI from the first coding challenge
+
+const whereAmI = function () {
+  getPosition()
+    .then(pos => {
+      console.log(pos.coords);
+      const { latitude: lat, longitude: lng } = pos.coords;
+
+      return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    })
+    .then(response => {
+      if (response.status === 403)
+        throw new Error('Too many requests done too quickly');
+
+      return response.json();
+    })
+    .then(data => {
+      console.log(`You are in ${data.city}, ${data.country}`);
+      return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+    })
+    .then(data => {
+      if (data.status === 404) throw new Error('Could not find your country');
+
+      if (data.status !== 200)
+        throw new Error('Could not retrieve country data');
+
+      return data.json();
+    })
+    .then(data2 => {
+      let [data] = data2;
+      console.log(data);
+      const html = `
+        <article class="country">
+          <img class="country__img" src="${data.flags.svg}" />
+          <div class="country__data">
+            <h3 class="country__name">${data.name.common}</h3>
+            <h4 class="country__region">${data.region}</h4>
+            <p class="country__row"><span>👫</span>${(
+              data.population / 1000000
+            ).toFixed(1)} million people</p>
+            <p class="country__row"><span>🗣️</span>${
+              data.languages[Object.keys(data.languages)[0]]
+            }</p>
+            <p class="country__row"><span>💰</span>${
+              Object.keys(data.currencies)[0]
+            }</p>
+          </div>
+        </article>
+        `;
+
+      //   console.log(data);
+
+      countriesContainer.insertAdjacentHTML('beforeend', html);
+    })
+    .catch(err => {
+      console.error(`Something went wrong: ${err.message}`);
+      const errMsg = `Something went wrong: ${err.message}`;
+      countriesContainer.insertAdjacentText('beforeend', errMsg);
+    })
+    .finally(() => (countriesContainer.style.opacity = 1));
+};
+
+// btn.addEventListener('click', whereAmI);
