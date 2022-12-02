@@ -334,17 +334,100 @@ const whereAmI = async function () {
 //   alert(err.message);
 // }
 
-const statusUpdates = async function () {
-  try {
-    console.log('1: Getting location');
+// const statusUpdates = async function () {
+//   try {
+//     console.log('1: Getting location');
 
-    const city = await whereAmI();
-    console.log(`2: ${city}`);
+//     const city = await whereAmI();
+//     console.log(`2: ${city}`);
 
-    console.log(`3: Got location 🫡`);
-  } catch (err) {
-    console.error(`😬 ${err.message}`);
-  }
-};
+//     console.log(`3: Got location 🫡`);
+//   } catch (err) {
+//     console.error(`😬 ${err.message}`);
+//   }
+// };
 
-statusUpdates();
+// statusUpdates();
+
+// const get3Countries = async function (c1, c2, c3) {
+//   try {
+//     // this way runs all three awaits one after the other even though they are independent of each other
+
+//     // const [data1] = await getJSON(`https://restcountries.com/v3.1/name/${c1}`);
+//     // const [data2] = await getJSON(`https://restcountries.com/v3.1/name/${c2}`);
+//     // const [data3] = await getJSON(`https://restcountries.com/v3.1/name/${c3}`);
+
+//     // instead, running it this way will let them load independently of each other and at the same time, which should dramatically reduce loading times. However if one promise rejects, Promise.all is also rejected and shortcircuits, mdn documents say it is possible to change the behaviour by handling the rejections.
+//     const data = await Promise.all([
+//       getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+//       getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+//       getJSON(`https://restcountries.com/v3.1/name/${c3}`),
+//     ]);
+
+//     console.log(data.map(d => d[0].capital[0]));
+//     // console.log([data1.capital[0], data2.capital[0], data3.capital[0]]);
+//   } catch (err) {
+//     console.error(`😬 ${err.message}`);
+//   }
+// };
+
+// get3Countries('portugal', 'canada', 'tanzania');
+
+// // Promise.race only returns the first promise, can shortcircuit if a Promise gets rejected and return the rejection.
+// // (async function () {
+// //   const res = await Promise.race([
+// //     getJSON(`https://restcountries.com/v3.1/name/italy`),
+// //     getJSON(`https://restcountries.com/v3.1/name/egypt`),
+// //     getJSON(`https://restcountries.com/v3.1/name/mexico`),
+// //   ]);
+
+// //   console.log(res);
+// // })();
+
+// // Can use Promise.race to timeout another Promise in the case of poor internet for something that would not be useful to the user.
+
+// const timeoutPromise = function (sec) {
+//   return new Promise(function (_, reject) {
+//     setTimeout(function () {
+//       reject(new Error(`Request took too long!`));
+//     }, sec * 1000);
+//   });
+// };
+
+// Promise.race([
+//   getJSON(`https://restcountries.com/v3.1/name/mexico`),
+//   timeoutPromise(1),
+// ])
+//   .then(res => console.log(res[0]))
+//   .catch(err => console.error(err.message));
+
+// // Promise.allSettled
+// // returns array of all results, does not shortcircuit and will return Promises that were rejected along with those that were resolved
+
+// Promise.allSettled([
+//   Promise.resolve('Success'),
+//   Promise.reject('ERROR'),
+//   Promise.resolve('Anotha one Success'),
+//   Promise.resolve('Success'),
+// ])
+//   .then(res => console.log(res))
+//   .catch(err => console.error(err.message));
+
+// Promise.all([
+//   Promise.resolve('Success'),
+//   Promise.reject('ERROR'),
+//   Promise.resolve('Anotha one Success'),
+// ])
+//   .then(res => console.log(res))
+//   .catch(err => console.error(err));
+
+// // Promise.any
+// // Returns the first Promise that is resolved, like race but won't return a rejected promise, if no passed in promise can be resolved, then Promise.any rejects with an AggregateError
+
+// Promise.any([
+//   Promise.resolve('Success'),
+//   Promise.reject('ERROR'),
+//   Promise.resolve('Anotha one Success'),
+// ])
+//   .then(res => console.log(res))
+//   .catch(err => console.error(err));
