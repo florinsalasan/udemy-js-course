@@ -95,60 +95,60 @@ console.log('CHALLENGE 2');
 // 8. After the 2 seconds have passed, hide the current image
 // Test data: Images in the img folder. Test the error handler by passing a wrong image path. Set the network speed to “Fast 3G” in the dev tools Network tab, otherwise images load too fast
 
-const wait = function (seconds) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, seconds * 1000);
-  });
-};
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
 
-const imgContainer = document.querySelector('.images');
+// const imgContainer = document.querySelector('.images');
 
-const createImage = function (imgPath) {
-  return new Promise(function (resolve, reject) {
-    const newImg = document.createElement('img');
-    newImg.src = imgPath;
-    newImg.addEventListener('load', () => {
-      imgContainer.append(newImg);
-      resolve(newImg);
-    });
-    newImg.addEventListener('error', err => {
-      console.error(err);
-      reject(new Error('Image not found.'));
-    });
-  });
-};
+// const createImage = function (imgPath) {
+//   return new Promise(function (resolve, reject) {
+//     const newImg = document.createElement('img');
+//     newImg.src = imgPath;
+//     newImg.addEventListener('load', () => {
+//       imgContainer.append(newImg);
+//       resolve(newImg);
+//     });
+//     newImg.addEventListener('error', err => {
+//       console.error(err);
+//       reject(new Error('Image not found.'));
+//     });
+//   });
+// };
 
-let currentImage;
+// let currentImage;
 
-createImage('img/img-1.jpg')
-  .then(imgEle => {
-    currentImage = imgEle;
-    return wait(2);
-  })
-  .then(() => {
-    currentImage.style.display = 'none';
-    return createImage('img/img-2.jpg');
-  })
-  .then(imgEle => {
-    currentImage = imgEle;
-    return wait(2);
-  })
-  .then(() => {
-    currentImage.style.display = 'none';
-    // return createImage('img/img-2.jpg');
-  })
-  .then(() => {
-    currentImage.style.display = 'none';
-    return createImage('img/img-3 .jpg');
-  })
-  .then(imgEle => {
-    currentImage = imgEle;
-    return wait(2);
-  })
-  .then(() => {
-    currentImage.style.display = 'none';
-    // return createImage('img/img-2.jpg');
-  })
-  .catch(err => {
-    console.error(`${err}`);
-  });
+// createImage('img/img-1.jpg')
+//   .then(imgEle => {
+//     currentImage = imgEle;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImage.style.display = 'none';
+//     return createImage('img/img-2.jpg');
+//   })
+//   .then(imgEle => {
+//     currentImage = imgEle;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImage.style.display = 'none';
+//     // return createImage('img/img-2.jpg');
+//   })
+//   .then(() => {
+//     currentImage.style.display = 'none';
+//     return createImage('img/img-3 .jpg');
+//   })
+//   .then(imgEle => {
+//     currentImage = imgEle;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImage.style.display = 'none';
+//     // return createImage('img/img-2.jpg');
+//   })
+//   .catch(err => {
+//     console.error(`${err}`);
+//   });

@@ -5,7 +5,7 @@ const countriesContainer = document.querySelector('.countries');
 
 const renderError = function (msg) {
   countriesContainer.insertAdjacentText('beforeend', msg);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 const renderCountryCard = function (data, className = '') {
@@ -31,7 +31,7 @@ const renderCountryCard = function (data, className = '') {
   //   console.log(data);
 
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 // ///////////////////////////////////////
@@ -221,64 +221,130 @@ const getPosition = function () {
 // getPosition().then(pos => console.log(pos));
 // using getPosition to call whereAmI from the first coding challenge
 
-const whereAmI = function () {
-  getPosition()
-    .then(pos => {
-      console.log(pos.coords);
-      const { latitude: lat, longitude: lng } = pos.coords;
+// const whereAmI = function () {
+//   getPosition()
+//     .then(pos => {
+//       console.log(pos.coords);
+//       const { latitude: lat, longitude: lng } = pos.coords;
 
-      return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
-    })
-    .then(response => {
-      if (response.status === 403)
-        throw new Error('Too many requests done too quickly');
+//       return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+//     })
+//     .then(response => {
+//       if (response.status === 403)
+//         throw new Error('Too many requests done too quickly');
 
-      return response.json();
-    })
-    .then(data => {
-      console.log(`You are in ${data.city}, ${data.country}`);
-      return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
-    })
-    .then(data => {
-      if (data.status === 404) throw new Error('Could not find your country');
+//       return response.json();
+//     })
+//     .then(data => {
+//       console.log(`You are in ${data.city}, ${data.country}`);
+//       return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+//     })
+//     .then(data => {
+//       if (data.status === 404) throw new Error('Could not find your country');
 
-      if (data.status !== 200)
-        throw new Error('Could not retrieve country data');
+//       if (data.status !== 200)
+//         throw new Error('Could not retrieve country data');
 
-      return data.json();
-    })
-    .then(data2 => {
-      let [data] = data2;
-      console.log(data);
-      const html = `
-        <article class="country">
-          <img class="country__img" src="${data.flags.svg}" />
-          <div class="country__data">
-            <h3 class="country__name">${data.name.common}</h3>
-            <h4 class="country__region">${data.region}</h4>
-            <p class="country__row"><span>👫</span>${(
-              data.population / 1000000
-            ).toFixed(1)} million people</p>
-            <p class="country__row"><span>🗣️</span>${
-              data.languages[Object.keys(data.languages)[0]]
-            }</p>
-            <p class="country__row"><span>💰</span>${
-              Object.keys(data.currencies)[0]
-            }</p>
-          </div>
-        </article>
-        `;
+//       return data.json();
+//     })
+//     .then(data2 => {
+//       let [data] = data2;
+//       console.log(data);
+//       const html = `
+//         <article class="country">
+//           <img class="country__img" src="${data.flags.svg}" />
+//           <div class="country__data">
+//             <h3 class="country__name">${data.name.common}</h3>
+//             <h4 class="country__region">${data.region}</h4>
+//             <p class="country__row"><span>👫</span>${(
+//               data.population / 1000000
+//             ).toFixed(1)} million people</p>
+//             <p class="country__row"><span>🗣️</span>${
+//               data.languages[Object.keys(data.languages)[0]]
+//             }</p>
+//             <p class="country__row"><span>💰</span>${
+//               Object.keys(data.currencies)[0]
+//             }</p>
+//           </div>
+//         </article>
+//         `;
 
-      //   console.log(data);
+//       //   console.log(data);
 
-      countriesContainer.insertAdjacentHTML('beforeend', html);
-    })
-    .catch(err => {
-      console.error(`Something went wrong: ${err.message}`);
-      const errMsg = `Something went wrong: ${err.message}`;
-      countriesContainer.insertAdjacentText('beforeend', errMsg);
-    })
-    .finally(() => (countriesContainer.style.opacity = 1));
+//       countriesContainer.insertAdjacentHTML('beforeend', html);
+//     })
+//     .catch(err => {
+//       console.error(`Something went wrong: ${err.message}`);
+//       const errMsg = `Something went wrong: ${err.message}`;
+//       countriesContainer.insertAdjacentText('beforeend', errMsg);
+//     })
+//     .finally(() => (countriesContainer.style.opacity = 1));
+// };
+
+// // btn.addEventListener('click', whereAmI);
+
+const whereAmI = async function () {
+  try {
+    // getting geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+
+    // using reverse geocoding to get the country/city
+    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    if (!resGeo.ok) throw new Error(`Problem getting location data`);
+    const dataGeo = await resGeo.json();
+
+    // getting country information based on the reverse geocoding
+    const res = await fetch(
+      `https://restcountries.com/v3.1/name/${dataGeo.country}`
+    );
+    if (!res.ok) throw new Error(`Problem getting country`);
+    console.log(res);
+
+    const data = await res.json();
+
+    renderCountryCard(data[0]);
+    // equivalent to the old .then chaining, just nicer syntactically
+    return `You are in ${dataGeo.city}, ${dataGeo.country}`;
+  } catch (err) {
+    console.error(`${err} 💍`);
+    renderError(`😳 ${err.message}`);
+
+    // Reject promise returned from asunc function
+    throw err;
+  }
 };
 
-// btn.addEventListener('click', whereAmI);
+// console.log('1: Will get location');
+// // const city = whereAmI();
+// // console.log(city); --> returns a promise since the function is async and js will just move on to the next line to prevent blocking.
+
+// whereAmI()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`2: ${err.message} 🪖`))
+//   .finally(() => console.log('3: Got location'));
+
+// console.log('before inner log');
+
+// try {
+//   let y = 1;
+//   const x = 2;
+//   y = 3;
+// } catch (err) {
+//   alert(err.message);
+// }
+
+const statusUpdates = async function () {
+  try {
+    console.log('1: Getting location');
+
+    const city = await whereAmI();
+    console.log(`2: ${city}`);
+
+    console.log(`3: Got location 🫡`);
+  } catch (err) {
+    console.error(`😬 ${err.message}`);
+  }
+};
+
+statusUpdates();
