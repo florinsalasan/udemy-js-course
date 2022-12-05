@@ -88,3 +88,20 @@ console.log(ShoppingCart2);
 
 // import
 // const { addToCart } = require('./shoppingCart.js')
+
+import cloneDeep from '../node_modules/lodash-es/cloneDeep.js';
+
+const state = {
+  cart: [
+    { product: 'bread', quantity: 5 },
+    { product: 'pizza', quantity: 2 },
+  ],
+  user: { loggedIn: true },
+};
+
+const stateClone = Object.assign({}, state);
+const stateDeepClone = cloneDeep(state);
+state.user.loggedIn = false; // this changes the logged in value of stateClone as well, not a separate object/deepcopy
+console.log(stateClone);
+
+console.log(stateDeepClone); // stays logged in since it's a deep copy used from lodash.
