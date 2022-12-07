@@ -1,6 +1,6 @@
 // Exporting module
 
-console.log('exporting module');
+// console.log('exporting module');
 
 // Blocking code
 
@@ -12,20 +12,20 @@ console.log('exporting module');
 
 // Everything in this module occurs BEFORE anything in the module that is importing. ie All code inside a module that is imported needs to wait until all of the code in other modules finishes running.
 
-const shippingCost = 10;
-export const cart = [];
+// const shippingCost = 10;
+// export const cart = [];
 
 // export const addToCart = function (product, quantity) {
 //   cart.push({ product, quantity });
 //   console.log(`${quantity} of ${product} was added to cart`);
 // };
 
-const totalPrice = 237;
-const totalQuantity = 23;
+// const totalPrice = 237;
+// const totalQuantity = 23;
 
-export { totalPrice, totalQuantity as tq };
+// export { totalPrice, totalQuantity as tq };
 
-export default function (product, quantity) {
-  cart.push({ product, quantity });
-  console.log(`${quantity} of ${product} was added to cart`);
-}
+// export default function (product, quantity) {
+//   cart.push({ product, quantity });
+//   console.log(`${quantity} of ${product} was added to cart`);
+// }
