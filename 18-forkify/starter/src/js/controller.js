@@ -2,6 +2,7 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -44,15 +45,30 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // 3) Render results (console.log is temp)
-    resultsView.render(model.getResultsPage(1));
+    resultsView.render(model.getResultsPage());
+
+    // 4) Render initial pagination
+    paginationView.render(model.state.search);
   } catch (err) {
     console.error(err);
   }
 };
 
+const controlPagination = function (goToPage) {
+  // const goToPage = btn.classList.contains('pagination__btn--prev')
+  //   ? model.state.search.page - 1
+  //   : model.state.search.page + 1; I liked this solution but
+  // data attributes are better to use
+
+  // Render the new results and pagination buttons
+  resultsView.render(model.getResultsPage(goToPage));
+  paginationView.render(model.state.search);
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 };
 
 init();
