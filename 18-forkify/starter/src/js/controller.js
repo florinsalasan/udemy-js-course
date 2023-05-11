@@ -23,6 +23,9 @@ const controlRecipes = async function () {
     if (!id) return; //guard clause to return early so it doesn't error out on initial load
     recipeView.renderSpinner();
 
+    // Update results view so that there is a marker for which recipe is currently open
+    resultsView.update(model.getResultsPage());
+
     // Load recipe
     await model.loadRecipe(id);
     const { recipe } = model.state;
@@ -65,10 +68,20 @@ const controlPagination = function (goToPage) {
   paginationView.render(model.state.search);
 };
 
+const controlServings = function (newServings) {
+  // Update recipe servings in state
+  model.updateServings(newServings);
+
+  // Update the recipe view
+  // recipeView.render(model.state.recipe);  Don't want to re-render the entire view. just want the updated info the be updated
+  recipeView.update(model.state.recipe);
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  recipeView.addHandlerUpdateServings(controlServings);
 };
 
 init();
