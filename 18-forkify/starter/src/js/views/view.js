@@ -4,6 +4,15 @@ export default class View {
   _data;
   _parentEl;
 
+  /**
+   * Render the recieved object to the DOM
+   * @param {Object | Object[]} data The data to be rendered (e.g. recipe)
+   * @param {boolean} [render=true] Renders to DOM if true or returns object as a markup string
+   * @returns {undefined | string} A markup string is returned if render=false
+   * @this {Object} View instance
+   * @author Flo
+   * @todo be better smh, see jsdoc for more info on how to write proper documentation
+   */
   render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
