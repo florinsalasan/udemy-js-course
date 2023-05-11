@@ -4,12 +4,15 @@ export default class View {
   _data;
   _parentEl;
 
-  render(data) {
+  render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
 
     this._data = data;
     const markup = this._generateMarkup();
+
+    if (!render) return markup;
+
     this._clear();
     this._parentEl.insertAdjacentHTML('afterbegin', markup);
   }
@@ -34,6 +37,7 @@ export default class View {
         !newEl.isEqualNode(curEl) &&
         newEl.firstChild?.nodeValue.trim() !== ''
       ) {
+        console.log(curEl, newEl);
         curEl.textContent = newEl.textContent;
         // Doesn;t work if the container doesn't only include text
         // can add another condition in the if statement to ensure that we only update text values.
