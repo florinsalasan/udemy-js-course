@@ -37,7 +37,6 @@ export default class View {
         !newEl.isEqualNode(curEl) &&
         newEl.firstChild?.nodeValue.trim() !== ''
       ) {
-        console.log(curEl, newEl);
         curEl.textContent = newEl.textContent;
         // Doesn;t work if the container doesn't only include text
         // can add another condition in the if statement to ensure that we only update text values.
