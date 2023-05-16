@@ -9,7 +9,6 @@ import { MODAL_CLOSE_SEC } from './config.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import { imageOverlay } from 'leaflet';
 
 // import icons from '../img/icons.svg'; // Parcel 1 method in case you ever need to downgrade
 // import icons from 'url:../img/icons.svg'; // Parcel 2 method
